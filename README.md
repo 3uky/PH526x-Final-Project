@@ -42,7 +42,7 @@ The test data from *test_time_series.csv* would be used as input data for classi
 
 I have checked github projects related to HAR "Human Activity Recognition" with use of acceleration measurements and found that is possible to calculate acceleration magnitude from x, y, z accuracy and used it as training covariate. The magnitude equation is as follow:
 
-m = $\sqrt{x^2 + y^2 +z^2}$
+<img src="https://render.githubusercontent.com/render/math?math=m=\sqrt{x^2%2By^2%2Bz^2}">
 
 ### Methodology Overview
 1. The *training_labels.csv* contain labels for every 10 observations in *training_time_series.csv*. Missing labels could be determined based on closest timestamp.
