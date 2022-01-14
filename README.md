@@ -25,8 +25,8 @@ The goal is to classify different physical activities as accurately as possible.
 
 ### Main Steps
 1. data analysis
-2. data preprocessing (data cleaning, data balancing, determine labels for test_time_series.csv, additional covariates computation)
-3. covarites specification (accuracy x, y, z and magnitude)
+2. data pre-processing (data cleaning, data balancing, determine labels for test_time_series.csv, additional covariates computation)
+3. covariate specification (accuracy x, y, z and magnitude)
 4. models scoring (best score has random forest classifier)
 5. model training
 6. input data classification
@@ -40,13 +40,13 @@ I have analyzed csv files structure and values. The *train_time_series.csv* and 
 
 The test data from *test_time_series.csv* would be used as input data for classification. A result would be necessary augmented because of different sampling rate in *test_labels.csv*. I have decided use knn classifier with 10 neighbors the final label would be selected based on timestamp and majority vote of 10 closest predicted labels.
 
-I have checked GitHub projects related to HAR "Human Activity Recognition" with use of acceleration measurements and found that is possible to calculate acceleration magnitude from x, y, z accuracy and used it as training covariant. The magnitude equation is as follow:
+I have checked GitHub projects related to HAR "Human Activity Recognition" with use of acceleration measurements and found that is possible to calculate acceleration magnitude from x, y, z accuracy and used it as training covariates. The magnitude equation is as follow:
 
 <img src="https://render.githubusercontent.com/render/math?math=m=\sqrt{x^2%2By^2%2Bz^2}">
 
 ### Methodology Overview
 1. The *training_labels.csv* contain labels for every 10 observations in *training_time_series.csv*. Missing labels could be determined based on closest timestamp.
-2. Based on data analysis I have used *x, y, z* accuracy and calculated *magnitude* as model training covariant.
+2. Based on data analysis I have used *x, y, z* accuracy and calculated *magnitude* as model training covariates.
 3. I have found that training data are Imbalanced. I have partially solved this issue with over-sampling. I have used *confusion matrix* for re-sampling result verification.
 4. I have score several classification models with *cross-validation* and *batch_classify* and found that *random forest classifier* has best result. I have trained model with provided post-processed input data. 
 5. I was experimenting with manual prediction, splitting train data-set on train and validation data and used them for model training and prediction verification.
@@ -217,13 +217,13 @@ for label_number,activity in {1:'standing', 2:'walking', 3:'stairs down', 4:'sta
     
 
 
-### Covariant Specification
+### Covariate Specification
 
-Based on graph results the **acceleration** data has relation with labels. I have found from different GitHub projects and scientific articles that **magnitude** could be used also as additional covariant for model training.
+Based on graph results the **acceleration** data has relation with labels. I have found from different GitHub projects and scientific articles that **magnitude** could be used also as additional covariate for model training.
 
 
 ```python
-# Specify classification_outcome Y and covariant X
+# Specify classification_outcome Y and covariate X
 classification_target = 'label'
 all_covariates = ['x', 'y', 'z', 'm']
 Y = df_train[classification_target]
@@ -502,9 +502,9 @@ I experimented with data pre-processing (`np.convolve`) but my result accuracy d
 
 
 ```python
-# acc=67.2% (x_smooth, y_smooth, z_smooth covariant smoothing (len/25) train, test, knn(50) smoothing of predictors)
+# acc=67.2% (x_smooth, y_smooth, z_smooth covariates smoothing (len/25) train, test, knn(50) smoothing of predictors)
 try1 = [2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 1, 1, 1]
-# acc=69.6% (xy_smooth, z_smooth covariant smoothing (len/25)train, test, knn(105) smoothing of predictors)
+# acc=69.6% (xy_smooth, z_smooth covariates smoothing (len/25)train, test, knn(105) smoothing of predictors)
 try2 = [1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4]
 # acc=72%
 try3 = [4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 3, 3, 3, 3, 3, 3, 3, 2, 4, 3, 3, 3, 3, 3, 3, 2, 2, 2, 3, 3, 3, 2, 3, 3, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2]
