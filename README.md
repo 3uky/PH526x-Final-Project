@@ -25,7 +25,7 @@ The goal is to classify different physical activities as accurately as possible.
 
 ### Main Steps
 1. data analysis
-2. data pre-processing (data cleaning, data balancing, determine labels for test_time_series.csv, additional covariates computation)
+2. data pre-processing (data cleaning, data balancing, determine labels for test_time_series.csv, additional covariate computation)
 3. covariate specification (accuracy x, y, z and magnitude)
 4. models scoring (best score has random forest classifier)
 5. model training
