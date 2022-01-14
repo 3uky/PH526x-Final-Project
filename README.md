@@ -6,8 +6,8 @@
 
 The final project is focused on prediction of the human physical activity (walking, standing, ascending and descending stairs) based on data from tri-axial smartphone accelerometer.
 
-### Input Dataset
-Input dataset contains training and test data in csv format each set consists of two csv files:
+### Input Data-set
+Input data-set contains training and test data in csv format each set consists of two csv files:
 
 - The first training file [train_time_series.csv](https://courses.edx.org/assets/courseware/v1/b98039c3648763aae4f153a6ed32f38b/asset-v1:HarvardX+PH526x+2T2020+type@asset+block/train_time_series.csv) contains accelerometer data. There are 1250 records sampled every 0.1 second. The file is used as input for classification model training. Every record has following features/columns.
 
@@ -17,7 +17,7 @@ Input dataset contains training and test data in csv format each set consists of
 
     ```sample number, timestamp, UTC time, label```
 
-Test data consists of two csv files [test_time_series.csv](https://courses.edx.org/assets/courseware/v1/1ca4f3d4976f07b8c4ecf99cf8f7bdbc/asset-v1:HarvardX+PH526x+2T2020+type@asset+block/test_time_series.csv) and [test_labels.csv](https://courses.edx.org/assets/courseware/v1/72d5933c310cf5eac3fa3f28b26d9c39/asset-v1:HarvardX+PH526x+2T2020+type@asset+block/test_labels.csv) with same structure, sampling rate and number of records as training dataset. The *test_time_series.csv* is used as input for classification model. Based on predicted labels is necessary determine final labels in *test_labels.csv*. The *test_labels.csv* is final result the main goal of this project and completed file has to be submitted.
+Test data consists of two csv files [test_time_series.csv](https://courses.edx.org/assets/courseware/v1/1ca4f3d4976f07b8c4ecf99cf8f7bdbc/asset-v1:HarvardX+PH526x+2T2020+type@asset+block/test_time_series.csv) and [test_labels.csv](https://courses.edx.org/assets/courseware/v1/72d5933c310cf5eac3fa3f28b26d9c39/asset-v1:HarvardX+PH526x+2T2020+type@asset+block/test_labels.csv) with same structure, sampling rate and number of records as training data-set. The *test_time_series.csv* is used as input for classification model. Based on predicted labels is necessary determine final labels in *test_labels.csv*. The *test_labels.csv* is final result the main goal of this project and completed file has to be submitted.
 
 ### Project Goal
 
@@ -34,22 +34,22 @@ The goal is to classify different physical activities as accurately as possible.
 
 ## Methods
 
-### Input Dataset Analysis
+### Input Data-set Analysis
 
-I have analysed csv files structure and values. The *train_time_series.csv* and *train_labes.csv* have different sampling times. It's possible to extract labels from *train_labels.csv* because label values are consistent in time and activity state is changing every several seconds not miliseconds.
+I have analyzed csv files structure and values. The *train_time_series.csv* and *train_labes.csv* have different sampling times. It's possible to extract labels from *train_labels.csv* because label values are consistent in time and activity state is changing every several seconds not milliseconds.
 
-The test data from *test_time_series.csv* would be used as input data for classification. A result would be necessary augmented because of diffrent sampling rate in *test_labels.csv*. I have decided use knn classifier with 10 neighbors the final label would be selected based on timestamp and majority vote of 10 closest predicted labels.
+The test data from *test_time_series.csv* would be used as input data for classification. A result would be necessary augmented because of different sampling rate in *test_labels.csv*. I have decided use knn classifier with 10 neighbors the final label would be selected based on timestamp and majority vote of 10 closest predicted labels.
 
-I have checked github projects related to HAR "Human Activity Recognition" with use of acceleration measurements and found that is possible to calculate acceleration magnitude from x, y, z accuracy and used it as training covariate. The magnitude equation is as follow:
+I have checked GitHub projects related to HAR "Human Activity Recognition" with use of acceleration measurements and found that is possible to calculate acceleration magnitude from x, y, z accuracy and used it as training covariant. The magnitude equation is as follow:
 
 <img src="https://render.githubusercontent.com/render/math?math=m=\sqrt{x^2%2By^2%2Bz^2}">
 
 ### Methodology Overview
 1. The *training_labels.csv* contain labels for every 10 observations in *training_time_series.csv*. Missing labels could be determined based on closest timestamp.
-2. Based on data analysis I have used *x, y, z* accuracy and calculated *magnitude* as model training covariates.
+2. Based on data analysis I have used *x, y, z* accuracy and calculated *magnitude* as model training covariant.
 3. I have found that training data are Imbalanced. I have partially solved this issue with over-sampling. I have used *confusion matrix* for re-sampling result verification.
 4. I have score several classification models with *cross-validation* and *batch_classify* and found that *random forest classifier* has best result. I have trained model with provided post-processed input data. 
-5. I was experimenting with manual prediction, splitting train dataset on train and validation data and used them for model training and prediction verification.
+5. I was experimenting with manual prediction, splitting train data-set on train and validation data and used them for model training and prediction verification.
 6. I have predicted labels of input data *test_time_series.csv* based on trained model.
 7. Predicted data were re-sampled with *K-nearest neighbor* classifier and stored in *test_lables.csv* files. The result is presented also as graph and as list of labels.
 
@@ -179,10 +179,10 @@ def plot_xyz(selection, title=''):
     ax.set_zlabel('z acc')
     ax.scatter(selection.x, selection.y, selection.z, c=selection.label.map(colors));
 
-# 3d plot for all accuracies colored by it's labels
+# 3d plot for all accuracy colored by it's labels
 plot_xyz(df_train, "all activities")
 
-# 3d plot for separated accuracies
+# 3d plot for separated accuracy
 for label_number,activity in {1:'standing', 2:'walking', 3:'stairs down', 4:'stairs up'}.items():
     plot_xyz(df_train[df_train.label == label_number], activity)
 ```
@@ -217,13 +217,13 @@ for label_number,activity in {1:'standing', 2:'walking', 3:'stairs down', 4:'sta
     
 
 
-### Covariates Specification
+### Covariant Specification
 
-Based on graph results the **acceleration** data has relation with labels. I have found from different github projects and scientific articles that **magnitude** could be used also as additional covariate for model training.
+Based on graph results the **acceleration** data has relation with labels. I have found from different GitHub projects and scientific articles that **magnitude** could be used also as additional covariant for model training.
 
 
 ```python
-# Specify classification_outcome Y and covariates X
+# Specify classification_outcome Y and covariant X
 classification_target = 'label'
 all_covariates = ['x', 'y', 'z', 'm']
 Y = df_train[classification_target]
@@ -232,7 +232,7 @@ X = df_train[all_covariates]
 
 ### Data Processing - Imbalanced Data
 
-There is un-even count of labels in training input dataset. Imbalanced classification is the problem of classification when there is an unequal distribution of classes. Imbalanced data could lead to classification bias. For solving of this problem I was experimenting with under/over sampling of training dataset. There is very large data lost with under-sampling and trained model provided unstable results. **Over-sampling** had better results but confusion matrix revealed that classification for classes 2, 3, 4 isn't precise.
+There is uneven count of labels in training input data-set. Imbalanced classification is the problem of classification when there is an unequal distribution of classes. Imbalanced data could lead to classification bias. For solving of this problem I was experimenting with under/over sampling of training data-set. There is very large data lost with under-sampling and trained model provided unstable results. **Over-sampling** had better results but confusion matrix revealed that classification for classes 2, 3, 4 isn't precise.
 
 
 ```python
@@ -264,7 +264,7 @@ print("Class distribution after re-sampling:\n{}".format(Y.value_counts()))
 
 ### Confusion Matrix
 
-Confusion matrix could reflect more details on classification accuracy. Each row of the matrix represents the instances in actual class while each column represents the instances in a predicted class. This is very usefull for **verification of re-sampling** from previous step. I have better results with over-sampling than with under-sampling. I was trying also combination with sampling strategy but I didn't get much better results than with pure over-sampling.
+Confusion matrix could reflect more details on classification accuracy. Each row of the matrix represents the instances in actual class while each column represents the instances in a predicted class. This is very useful for **verification of re-sampling** from previous step. I have better results with over-sampling than with under-sampling. I was trying also combination with sampling strategy but I didn't get much better results than with pure over-sampling.
 
 
 ```python
@@ -318,7 +318,7 @@ def score_classifier(classifier, X, Y):
     print(classifier)
     print("mean score:", np.mean(score))
 
-# instanciate classifers
+# instantiate classifiers
 logistic_regression = LogisticRegression()
 forest_classifier = RandomForestClassifier(max_depth=4, random_state=0)
 
@@ -422,7 +422,7 @@ I have calculate *magnitude* for input test data and predict labels with help of
 # load test data
 df_test = pd.read_csv('test_time_series.csv', usecols=["timestamp","x","y","z"])
 
-# data preprocessing
+# data pre-processing
 add_magnitude(df_test)
 
 # classification
@@ -441,7 +441,7 @@ plot_activity(df_test.timestamp, df_test.label)
 
 ### Final Data Processing
 
-Predicted values are sampled with **K-nearest neighbor classifier**. I have selected *10 neighbors* becouse of sampling rate is 1:10 it means that one final sample in *test_labels.csv* corresponds to 10 predicted labels made from *test_time_series.csv* (`df_test`).
+Predicted values are sampled with **K-nearest neighbor classifier**. I have selected *10 neighbors* because of sampling rate is 1:10 it means that one final sample in *test_labels.csv* corresponds to 10 predicted labels made from *test_time_series.csv* (`df_test`).
 
 
 ```python
@@ -455,14 +455,14 @@ def smooth_knn(df_train, df_test, n_neigh=50):
 # load test_labels
 df_test_labels = pd.read_csv('test_labels.csv', index_col=0)
 
-# smoothing result with knn (10 becouse there are 10 samples in test_time_series.csv on 1 sample in test_labels.csv)
+# smoothing result with knn (10 because there are 10 samples in test_time_series.csv on 1 sample in test_labels.csv)
 df_test_labels["label"] = smooth_knn(df_test, df_test_labels, n_neigh=10)
 label_knn_1 = smooth_knn(df_test, df_test_labels, n_neigh=1)
 ```
 
 ## Results
 
-The result contains lot of fast changing activities however characteristic similar to *train_labels.csv* is expected so there are some false classifications. It's possible to smooth result with more higher neighbors parameter but it would introduce errors in result. The better data pre-processing or data balancing could be better way how to improve the final result. Unfortunatly I have exhaused my accuracy validation tries so I have decided to ignore result inaccury in this point.
+The result contains lot of fast changing activities however characteristic similar to *train_labels.csv* is expected so there are some false classifications. It's possible to smooth result with more higher neighbors parameter but it would introduce errors in result. The better data pre-processing or data balancing could be better way how to improve the final result. Unfortunately I have exhausted my accuracy validation tries so I have decided to ignore result inaccuracy in this point.
 
 
 ```python
@@ -496,15 +496,15 @@ df_test_labels.to_csv("test_labels.csv")
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 1, 1, 2, 3, 3, 4, 3, 3, 4, 2, 2, 3, 3, 3, 3, 2, 3, 3, 2, 2, 3, 3, 3, 3, 3, 3, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 4, 2, 4, 2, 2, 2, 2, 2, 4, 2]
 
 
-### Notes - history of measurment
+### Notes - history of measurement
 
-I experimented with data pre-procesing (`np.convolve`) but my result accuracy decreased, later I figured out that it was probably because of random characteristic of training data after re-sampling.
+I experimented with data pre-processing (`np.convolve`) but my result accuracy decreased, later I figured out that it was probably because of random characteristic of training data after re-sampling.
 
 
 ```python
-# acc=67.2% (x_smooth, y_smooth, z_smooth covariates smoothing (len/25) train, test, knn(50) smoothing of predictors)
+# acc=67.2% (x_smooth, y_smooth, z_smooth covariant smoothing (len/25) train, test, knn(50) smoothing of predictors)
 try1 = [2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 1, 1, 1]
-# acc=69.6% (xy_smooth, z_smooth covariates smoothing (len/25)train, test, knn(105) smoothing of predictors)
+# acc=69.6% (xy_smooth, z_smooth covariant smoothing (len/25)train, test, knn(105) smoothing of predictors)
 try2 = [1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4]
 # acc=72%
 try3 = [4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 3, 3, 3, 3, 3, 3, 3, 2, 4, 3, 3, 3, 3, 3, 3, 2, 2, 2, 3, 3, 3, 2, 3, 3, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2]
@@ -522,7 +522,7 @@ try5 = try3
 #plot_activity(df_test_labels.timestamp, result_labels)
 ```
 
-### Notes - time measurment
+### Notes - time measurement
 
 For run-time measurement I have used code without data analysis, data presentation, data verification and model score because those steps are not necessary for data processing and classification itself. The result code is as follow:
 
@@ -611,4 +611,4 @@ print("Average run-time of data processing and classification is {} seconds.".fo
 
 ## Conclusion
 
-I have classified input data with *random forest classification* model. Predicted labels were re-sampled with *K-nearest neighbor classifier*. I have reached classification accuracy of **72%**. Accuracy could be improved with better data pre-processing, data balancing or hyperparameter tuning. I have also documented all analysis and verification steps and program run-time. The final project was fun.
+I have classified input data with *random forest classification* model. Predicted labels were re-sampled with *K-nearest neighbor classifier*. I have reached classification accuracy of **72%**. Accuracy could be improved with better data pre-processing, data balancing or hyper-parameter tuning. I have also documented all analysis and verification steps and program run-time. The final project was fun.
