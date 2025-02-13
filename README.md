@@ -1,4 +1,4 @@
-# PH526x Final Project
+# PH526x - Using Python for Research - Final Project
 
 >**Author**: Hynek Buček, 3uky 
 
