@@ -95,7 +95,7 @@ plot_activity(df_labels.timestamp, df_labels.label)
 
 
     
-![png](output_3_0.png)
+![png](pics\output_3_0.png)
     
 
 
@@ -122,7 +122,7 @@ plot_data(df_train)
 
 
     
-![png](output_5_0.png)
+![png](pics\output_5_0.png)
     
 
 
@@ -154,13 +154,13 @@ plot_activity(df_train.timestamp, df_train.label)
 
 
     
-![png](output_7_0.png)
+![png](pics\output_7_0.png)
     
 
 
 
     
-![png](output_7_1.png)
+![png](pics\output_7_1.png)
     
 
 
@@ -174,7 +174,6 @@ def plot_xyz(selection, title=''):
     colors = {1:'red', 2:'green', 3:'blue', 4:'yellow'}
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
-    ax = Axes3D(fig)
     ax.set_title(title)
     ax.set_xlabel('x acc')
     ax.set_ylabel('y acc')
@@ -191,31 +190,31 @@ for label_number,activity in {1:'standing', 2:'walking', 3:'stairs down', 4:'sta
 
 
     
-![png](output_9_0.png)
+![png](pics\output_9_0.png)
     
 
 
 
     
-![png](output_9_1.png)
+![png](pics\output_9_1.png)
     
 
 
 
     
-![png](output_9_2.png)
+![png](pics\output_9_2.png)
     
 
 
 
     
-![png](output_9_3.png)
+![png](pics\output_9_3.png)
     
 
 
 
     
-![png](output_9_4.png)
+![png](pics\output_9_4.png)
     
 
 
@@ -437,7 +436,7 @@ plot_activity(df_test.timestamp, df_test.label)
 
 
     
-![png](output_21_0.png)
+![png](pics\output_21_0.png)
     
 
 
@@ -485,13 +484,13 @@ df_test_labels.to_csv("test_labels.csv")
 
 
     
-![png](output_25_0.png)
+![png](pics\output_25_0.png)
     
 
 
 
     
-![png](output_25_1.png)
+![png](pics\output_25_1.png)
     
 
 
