@@ -95,7 +95,7 @@ plot_activity(df_labels.timestamp, df_labels.label)
 
 
     
-![png](pics\output_3_0.png)
+![png](pics/output_3_0.png)
     
 
 
@@ -122,7 +122,7 @@ plot_data(df_train)
 
 
     
-![png](pics\output_5_0.png)
+![png](pics/output_5_0.png)
     
 
 
@@ -154,13 +154,13 @@ plot_activity(df_train.timestamp, df_train.label)
 
 
     
-![png](pics\output_7_0.png)
+![png](pics/output_7_0.png)
     
 
 
 
     
-![png](pics\output_7_1.png)
+![png](pics/output_7_1.png)
     
 
 
@@ -190,31 +190,31 @@ for label_number,activity in {1:'standing', 2:'walking', 3:'stairs down', 4:'sta
 
 
     
-![png](pics\output_9_0.png)
+![png](pics/output_9_0.png)
     
 
 
 
     
-![png](pics\output_9_1.png)
+![png](pics/output_9_1.png)
     
 
 
 
     
-![png](pics\output_9_2.png)
+![png](pics/output_9_2.png)
     
 
 
 
     
-![png](pics\output_9_3.png)
+![png](pics/output_9_3.png)
     
 
 
 
     
-![png](pics\output_9_4.png)
+![png](pics/output_9_4.png)
     
 
 
@@ -436,7 +436,7 @@ plot_activity(df_test.timestamp, df_test.label)
 
 
     
-![png](pics\output_21_0.png)
+![png](pics/output_21_0.png)
     
 
 
@@ -484,13 +484,13 @@ df_test_labels.to_csv("test_labels.csv")
 
 
     
-![png](pics\output_25_0.png)
+![png](pics/output_25_0.png)
     
 
 
 
     
-![png](pics\output_25_1.png)
+![png](pics/output_25_1.png)
     
 
 
