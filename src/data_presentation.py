@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
 
 def plot_xy(x, y, y_title="acceleration"):
     fig = plt.figure(figsize=(10, 3))

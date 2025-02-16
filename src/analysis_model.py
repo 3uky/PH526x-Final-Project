@@ -19,9 +19,9 @@ def generate_validation_data(X, Y):
 def evaluate_confusion_matrix(X, Y):
     Y_val, Y_pred = generate_validation_data(X, Y)
     matrix = confusion_matrix(Y_val, Y_pred, normalize="true")
-
+    average_diagonal_precision = (np.trace(matrix) / 4 * 100)
+    print(f"Confusion matrix - average diagonal precision after training data resampling: {average_diagonal_precision:.2f}%")
     print(matrix)
-    print(f"Average diagonal precision after training data resampling: {(np.trace(matrix) / 4 * 100):.2f}%")
 
 def model_accuracy(estimator, X, y):
     estimator.fit(X, y)
@@ -30,8 +30,7 @@ def model_accuracy(estimator, X, y):
 
 def score_classifier(classifier, X, Y):
     score = cross_val_score(classifier, X, Y, cv=10, scoring=model_accuracy)
-    print(classifier)
-    print("mean score:", np.mean(score))
+    print(f"{classifier} : mean score: {np.mean(score)}")
 
 def score_models(X, Y):
     # instanciate classifers

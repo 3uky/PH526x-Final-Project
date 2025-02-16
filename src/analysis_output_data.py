@@ -1,4 +1,5 @@
 from data_presentation import *
+import numpy as np
 
 def similarity(predictions, Y_val):
     return 100 * np.mean(predictions == Y_val)
@@ -10,4 +11,4 @@ def analyze_result(df_test, df_test_labels):
     # print("Similarity between knn 1 and 10 is {}%".format(similarity(df_test_labels.label_knn_1, df_test_labels.label)))
 
     result_labels = df_test_labels.label.tolist()
-    print(result_labels)
+    print(f"Final classified labels: {result_labels}")
