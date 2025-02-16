@@ -8,61 +8,19 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import cross_val_score, GridSearchCV, RandomizedSearchCV, train_test_split
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier, AdaBoostClassifier
 
-import datetime
-
-import matplotlib.pyplot as plt
-
 import warnings
+
+from data_presentation import *
 from config import *
 
 warnings.filterwarnings("ignore")
 
-def plot_xy(x, y, y_title="acceleration"):
-    fig = plt.figure(figsize=(10, 3))
-    plt.xlabel("timestamp")
-    plt.ylabel(y_title)
-    plt.plot(x, y)
-    plt.show()
-
-
-def plot_activity(x, y, title=''):
-    fig = plt.figure(figsize=(10, 3))
-    plt.xlabel("timestamp")
-    plt.ylabel("activity")
-    plt.plot(x, y)
-    # plt.yticks([1, 2, 3, 4], ["standing", "walking", "stairs down", "stairs up"])
-    plt.yticks([1, 2, 3, 4])
-    plt.title(title)
-    plt.show()
-
-
 df_labels = pd.read_csv(TRAIN_LABELS)
-
-# labels/activities are consistent in time
-plot_activity(df_labels.timestamp, df_labels.label)
-
-
-def plot_data(df):
-    selection = df.iloc[:]
-    plt.figure(figsize=(10, 3))
-    plt.plot(selection.timestamp, selection.x, linewidth=0.5, color='r', label='x acc')
-    plt.plot(selection.timestamp, selection.y, linewidth=0.5, color='b', label='y acc')
-    plt.plot(selection.timestamp, selection.z, linewidth=0.5, color='g', label='z acc')
-    plt.xlabel('timestamp')
-    plt.ylabel('acceleration')
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5));
-    plt.show
-
-
-# reading training csv data
 df_train = pd.read_csv(TRAIN_TIME_SERIES)
 
-plot_data(df_train)
-
-
+# PREPROCESSING
 def add_magnitude(df):
     df['m'] = np.sqrt(df.x ** 2 + df.y ** 2 + df.z ** 2)
-
 
 # read labels from train_labels.csv and set label value in train_time_series data frame based on nearest timestamp value
 def add_label(df_train):
@@ -74,16 +32,17 @@ def get_label(df_labels, timestamp):
     idx = (np.abs(timestamps - timestamp)).argmin()
     return df_labels.iloc[idx].label
 
-
-# remove useless column
-# del df_train['accuracy']
-
 # calculate new columns
 add_magnitude(df_train)
 add_label(df_train)
 
+# PRESENTATION
+plot_activity(df_labels.timestamp, df_labels.label) # labels/activities are consistent in time
+plot_data(df_train)
 plot_xy(df_train.timestamp, df_train.m, "magnitude")
 plot_activity(df_train.timestamp, df_train.label)
+
+
 
 # Specify classification_outcome Y and covariates X
 classification_target = 'label'
