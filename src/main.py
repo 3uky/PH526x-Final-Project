@@ -29,7 +29,7 @@ def main():
     X, Y = data_preprocessing(df_train)
 
     # score
-    evaluate_confusion_matrix(X, Y)  # evaluation of test data re-balancing
+    evaluate_confusion_matrix(X, Y)  # evaluation of train data re-balancing
     score_models(X, Y)  # evaluation of different model classifiers
 
     # train model
