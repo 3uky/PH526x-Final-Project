@@ -4,7 +4,6 @@ from imblearn.over_sampling import RandomOverSampler
 from siml.sk_utils import *
 from sklearn.neighbors import KNeighborsClassifier
 import warnings
-import os
 import time
 
 from config import *
