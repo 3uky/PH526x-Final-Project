@@ -2,10 +2,12 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
 from config import *
-from data_presentation import *
+from analysis_input_data import *
+from analysis_output_data import *
 from data_preprocessing import *
 from data_postprocessing import *
-from model_score import *
+from analysis_model import *
+
 
 def read_data():
     df_labels = pd.read_csv(TRAIN_LABELS)
@@ -24,7 +26,7 @@ def store_result(df_test_labels):
 def main():
     df_train, df_test, df_test_labels = read_data()
 
-    print_input_data(df_train)
+    analyze_input_data(df_train)
 
     X, Y = data_preprocessing(df_train)
 
@@ -41,7 +43,7 @@ def main():
 
     postprocessing(df_test, df_test_labels)
 
-    print_result(df_test, df_test_labels)
+    analyze_result(df_test, df_test_labels)
 
     store_result(df_test_labels)
 
