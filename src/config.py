@@ -7,4 +7,4 @@ TEST_TIME_SERIES = os.path.join(DATA_PATH, "test_time_series.csv")
 TEST_LABELS = os.path.join(DATA_PATH, "test_labels.csv")
 
 classification_target = 'label'
-all_covariances = ['x', 'y', 'z', 'm']
+all_covarites = ['x', 'y', 'z', 'm']

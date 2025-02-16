@@ -29,7 +29,7 @@ def resampling(X, Y):
 def data_preprocessing(df_train):
     # Specify classification_outcome Y and covariates X
     Y = df_train[classification_target]
-    X = df_train[all_covariances]
+    X = df_train[all_covarites]
 
     X,Y = resampling(X, Y)
     return X, Y

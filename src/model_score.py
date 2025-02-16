@@ -4,8 +4,6 @@ from sklearn.model_selection import cross_val_score, GridSearchCV, RandomizedSea
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier, AdaBoostClassifier
 from siml.sk_utils import *
 from siml.signal_analysis_utils import *
-#import sensormotion as sm
-#from scipy.fftpack import fft
 import numpy as np
 import warnings
 
@@ -18,7 +16,6 @@ def generate_validation_data(X, Y):
     Y_pred = forest_classifier.predict(X_val)
     return Y_val, Y_pred
 
-
 def evaluate_confusion_matrix(X, Y):
     Y_val, Y_pred = generate_validation_data(X, Y)
     matrix = confusion_matrix(Y_val, Y_pred, normalize="true")
@@ -30,7 +27,6 @@ def model_accuracy(estimator, X, y):
     estimator.fit(X, y)
     predictions = estimator.predict(X)
     return accuracy_score(y, predictions)
-
 
 def score_classifier(classifier, X, Y):
     score = cross_val_score(classifier, X, Y, cv=10, scoring=model_accuracy)
@@ -52,7 +48,3 @@ def score_models(X, Y):
     # check score for different models
     models = batch_classify(X_train, Y_train, X_val, Y_val)
     display_dict_models(models)
-
-def score(X, Y):
-    evaluate_confusion_matrix(X, Y) # for re-balancing evaluation
-    score_models(X, Y)

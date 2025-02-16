@@ -38,7 +38,7 @@ def print_input_data(df_train):
     plot_data(df_train)
     plot_xy(df_train.timestamp, df_train.m, "magnitude")
 
-def print_results(df_test, df_test_labels):
+def print_result(df_test, df_test_labels):
     plot_activity(df_test.timestamp, df_test.label)
     plot_activity(df_test_labels.timestamp, df_test_labels.label_knn_1, "knn neightbors=1 (without smoothing)")
     plot_activity(df_test_labels.timestamp, df_test_labels.label, "knn neightbors=10 (final result)")

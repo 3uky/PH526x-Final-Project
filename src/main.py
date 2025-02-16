@@ -1,5 +1,4 @@
 import pandas as pd
-
 from sklearn.ensemble import RandomForestClassifier
 
 from config import *
@@ -19,7 +18,7 @@ def read_data():
 
     return df_train, df_test, df_test_labels
 
-def store_results(df_test_labels):
+def store_result(df_test_labels):
     df_test_labels.to_csv(TEST_LABELS)
 
 def main():
@@ -29,22 +28,22 @@ def main():
 
     X, Y = data_preprocessing(df_train)
 
-    score(X, Y)
+    # score
+    evaluate_confusion_matrix(X, Y)  # evaluation of test data re-balancing
+    score_models(X, Y)  # evaluation of different model classifiers
 
     # train model
-    forest_classifier = RandomForestClassifier(max_depth=4, random_state=0)
-    forest_classifier.fit(X, Y)
+    model = RandomForestClassifier(max_depth=4, random_state=0)
+    model.fit(X, Y)
 
-    # test data classification
-    test_covariates = df_test[all_covariances]
-    df_test["label"] = forest_classifier.predict(test_covariates)
+    # classification
+    df_test["label"] = model.predict(df_test[all_covarites])
 
-    # postprocessing
-    smooth_result(df_test, df_test_labels)
+    postprocessing(df_test, df_test_labels)
 
-    print_results(df_test, df_test_labels)
+    print_result(df_test, df_test_labels)
 
-    store_results(df_test_labels)
+    store_result(df_test_labels)
 
 if __name__=="__main__":
     main()
