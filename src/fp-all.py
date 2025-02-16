@@ -13,9 +13,9 @@ import datetime
 import matplotlib.pyplot as plt
 
 import warnings
+from config import *
 
 warnings.filterwarnings("ignore")
-
 
 def plot_xy(x, y, y_title="acceleration"):
     fig = plt.figure(figsize=(10, 3))
@@ -36,7 +36,7 @@ def plot_activity(x, y, title=''):
     plt.show()
 
 
-df_labels = pd.read_csv('train_labels.csv')
+df_labels = pd.read_csv(TRAIN_LABELS)
 
 # labels/activities are consistent in time
 plot_activity(df_labels.timestamp, df_labels.label)
@@ -55,7 +55,7 @@ def plot_data(df):
 
 
 # reading training csv data
-df_train = pd.read_csv('train_time_series.csv')
+df_train = pd.read_csv(TRAIN_TIME_SERIES)
 
 plot_data(df_train)
 
@@ -159,7 +159,7 @@ display_dict_models(models)
 forest_classifier.fit(X, Y)
 
 # load test data
-df_test = pd.read_csv('test_time_series.csv')
+df_test = pd.read_csv(TEST_TIME_SERIES)
 
 # data preprocessing
 add_magnitude(df_test)
@@ -181,7 +181,7 @@ def smooth_knn(df_train, df_test, n_neigh=50):
 
 
 # load test_labels
-df_test_labels = pd.read_csv('test_labels.csv')
+df_test_labels = pd.read_csv(TEST_LABELS)
 
 # smoothing result with knn (10 becouse there are 10 samples in test_time_series.csv on 1 sample in test_labels.csv)
 df_test_labels["label"] = smooth_knn(df_test, df_test_labels, n_neigh=10)
@@ -201,4 +201,4 @@ result_labels = df_test_labels.label.tolist()
 print(result_labels)
 
 # Store result into test_labels.csv
-df_test_labels.to_csv("test_labels.csv")
+df_test_labels.to_csv(TEST_LABELS)

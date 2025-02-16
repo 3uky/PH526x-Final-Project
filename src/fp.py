@@ -4,8 +4,10 @@ from imblearn.over_sampling import RandomOverSampler
 from siml.sk_utils import *
 from sklearn.neighbors import KNeighborsClassifier
 import warnings
-
+import os
 import time
+
+from config import *
 
 def add_magnitude(df):
     df['m'] = np.sqrt(df.x ** 2 + df.y ** 2 + df.z ** 2)
@@ -28,8 +30,8 @@ warnings.filterwarnings('ignore')
 
 start_time = time.process_time()
 
-df_labels = pd.read_csv('train_labels.csv', usecols=['timestamp', 'label'])
-df_train = pd.read_csv("train_time_series.csv", usecols=['timestamp', 'x', 'y', 'z'])
+df_labels = pd.read_csv(TRAIN_LABELS, usecols=['timestamp', 'label'])
+df_train = pd.read_csv(TRAIN_TIME_SERIES, usecols=['timestamp', 'x', 'y', 'z'])
 
 add_magnitude(df_train)
 add_label(df_train)
@@ -43,15 +45,15 @@ X, Y = ros.fit_resample(X, Y)
 forest_classifier = RandomForestClassifier(max_depth=4, random_state=0)
 forest_classifier.fit(X, Y)
 
-df_test = pd.read_csv('test_time_series.csv', usecols=['timestamp', 'x', 'y', 'z'])
+df_test = pd.read_csv(TEST_TIME_SERIES, usecols=['timestamp', 'x', 'y', 'z'])
 add_magnitude(df_test)
 test_covariates = df_test[['x', 'y', 'z', 'm']]
 df_test['label'] = forest_classifier.predict(test_covariates)
 
-df_test_labels = pd.read_csv('test_labels.csv', usecols=['timestamp', 'label'])
+df_test_labels = pd.read_csv(TEST_LABELS, usecols=['timestamp', 'label'])
 df_test_labels['label'] = smooth_knn(df_test, df_test_labels, n_neigh=10)
 
-df_test_labels.to_csv('test_labels.csv')
+df_test_labels.to_csv(TEST_LABELS)
 
 end_time = time.process_time()
-print(end_time - start_time)
+print(f"{end_time - start_time} s")
